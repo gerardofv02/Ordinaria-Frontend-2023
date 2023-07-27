@@ -39,7 +39,7 @@ const Remover = () => {
       }}
       `
 
-      const {data} =  useQuery<{
+      const {data,refetch} =  useQuery<{
         events:evento[],
       }>(
         query,{
@@ -59,15 +59,16 @@ const Remover = () => {
 
 
         <div>Posibles eventos a eliminar: </div>
-       {data?.events.map((event:evento ) => { return(
+       {data?.events.map((event:evento ) => { console.log(data); return(
         <div id={event.id}>
         <div>Date: {event.date.toString()}</div>
         <div>Hour Start: {event.startHour}</div>
         <div>Hour End: {event.endHour}</div>
         <div>Title: {event.title}</div>
         <div>Description: {event.description}</div>
-        <button onClick={(e) => {mymutation({variables: {id: event.id}});
+        <button onClick={(e) => {mymutation({variables: {deleteEventId: event.id}});
          window.alert("Evento eliminado");
+         refetch();
          }}>Eliminar</button>
         </div>
         

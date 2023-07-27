@@ -9,6 +9,7 @@ import Link from "next/link";
 
 
 const Anadir = () => {
+
     const mutation = gql`
     mutation($title: String!, $description: String!, $date: Date!, $startHour: Int!, $endHour: Int!){createEvent(title: $title, description: $description, date: $date, startHour: $startHour, endHour: $endHour) {
         date,
@@ -27,12 +28,16 @@ const Anadir = () => {
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
 
+    const[error, setError] = useState<string>("");
+
 
 
 
     
     return(
         <>
+        {error!==""&&<>{error}</>}
+        <br/>
         <Link href="/">Volver a menu</Link>
         <div>Hola que necesita añadir?</div>
         <br/>
@@ -56,9 +61,19 @@ const Anadir = () => {
             Description:
         <input type="text" onBlur={(e) => setDescription(e.target.value)}></input>
         </div>
-        <button onClick={(e) => {mymutation({variables: {date:date,title:title,startHour:hourMin,endHour:hourMax, description: description}});
+        <button onClick={async(e) => {
+          try{  
+        await mymutation({variables: {date:date,title:title,startHour:hourMin,endHour:hourMax, description: description}});
          window.alert("Evento añadido");
-         }}> Añadir</button>
+         setError("");
+         }
+         catch(e: any){
+            window.alert("Error!");
+            setError("Que triste estoy, ha habido un error");
+            
+         }}
+        }
+> Añadir</button>
 
         </>
         )

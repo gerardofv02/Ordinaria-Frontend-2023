@@ -1,6 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import {gql }from "@apollo/client";
 import  getClient  from "../libs/client";
+import Link from "next/link";
 
 export type event = {
     event: {
@@ -54,7 +55,9 @@ export const getServerSideProps:GetServerSideProps = async () => {
 const Eventos : NextPage<event>=(props) => {
 
     return (
+      
         <div>
+            <Link href="/">Volver a menu</Link>
         {props.event.map((event) => {return(
         <div key={event.id}>  
         <div>Date: {event.date.toString()}</div>
